@@ -56,7 +56,7 @@ LONG_DESCRIPTION = codecs.open('README.md', 'r', encoding='utf-8').read()
 INSTALL_REQUIRES = [
     'docopt',
     'Jinja2',
-    'lxml'
+    'lxml',
     'requests',
     'six'
 ]
