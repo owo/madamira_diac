@@ -38,14 +38,10 @@ pip install .
 Below is the usage manual which can be seen by running `madamira_diac -h`.
 
 ```
-madamira_diac: A commandline utility for diacritizing Arabic text with
-                  MADAMIRA in server mode.
-
 Usage:
     madamira_diac [-u URL | --url=URL]
                   [-a | --all]
                   [-s | --separate-punct]
-                  [-p | --preprocess]
                   [-i INPUT | --input=INPUT]
                   [-o OUTPUT | --output=OUTPUT]
     madamira_diac (-v | --version)
@@ -58,7 +54,6 @@ Options:
                               from standard input.
   -o OUTPUT --output=OUTPUT   Output file. If not specified, output will be
                               written to standard output.
-  -p --preprocess             Preprocess text.
   -s --separate-punct         Seperate punctuation.
   -u URL --url=URL            The MADAMIRA server URL. Defaults to
                               http://localhost:8223.
@@ -72,12 +67,6 @@ To test out madamira_diac in an interactive terminal session, just type:
 
 ```
 madamira_diac
-```
-
-Alternatively, you could also have MADAMIRA preprocess your input by running:
-
-```
-madamira_diac -p
 ```
 
 MADAMIRA will not return a diacritization for words that are attached to
@@ -95,6 +84,11 @@ flag as follows:
 ```
 madamira_diac -a -i input.txt -o output.txt
 ```
+
+By default, madamira_diac sends one request to MADAMIRA per line.
+This is useful to get real-time feedback in an interactive session but will be
+slow when processing large files. Note that using `-a` in an interactive session
+will not return any results until the session is closed using `Ctrl-d`.
 
 ## License
 madamira_diac is licensed under the MIT License. See [here](LICENSE)
