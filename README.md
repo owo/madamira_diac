@@ -19,7 +19,7 @@ java -Xmx2500m -Xms2500m -XX:NewRatio=3 \
      -jar MADAMIRA-release-xxxxxxxx-x.x.jar -s
 ```
 
-Download or clone a copy of this repo first.
+In a new terminal window, clone a copy of this repo.
 
 ```
 git clone https://github.com/owo/madamira_diac.git madamira_diac
