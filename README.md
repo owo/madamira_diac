@@ -63,6 +63,7 @@ Options:
 ## Examples
 
 ### Interactive terminal session
+
 To test out madamira_diac in an interactive terminal session, just type:
 
 ```
@@ -78,6 +79,7 @@ madamira_diac -s
 ```
 
 ### Diacritizing an entire file
+
 To diacritize an entire file using a single request to MADAMIRA, use the `-a`
 flag as follows:
 
@@ -91,5 +93,6 @@ slow when processing large files. Note that using `-a` in an interactive session
 will not return any results until the session is closed using `Ctrl-d`.
 
 ## License
+
 madamira_diac is licensed under the MIT License. See [here](LICENSE)
 for more information.
