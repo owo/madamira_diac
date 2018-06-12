@@ -37,6 +37,9 @@ import requests
 from madamira_diac.config import generate_config
 
 
+_UTF8_NL = u'\n'.encode('utf-8')
+
+
 def _diac_gen(xml):
     xml_stream = BytesIO(xml)
     sentence = deque()
@@ -54,7 +57,7 @@ def _diac_gen(xml):
                 yield ' '.join(sentence)
 
 
-def diac_file(fin, fout, server_url, preprocess=False, separate_punct=False):
+def diac_file(fin, fout, server_url, separate_punct=False):
     """Reads in an entire file and gets its diacritized form using one request
     to MADAMIRA, writing the diacritized text to an output file.
 
@@ -64,23 +67,22 @@ def diac_file(fin, fout, server_url, preprocess=False, separate_punct=False):
         server_url {string} -- MADAMIRA server url.
 
     Keyword Arguments:
-        preprocess {bool} -- preprocess text (default: {False})
         separate_punct {bool} -- separate punctuation (default: {False})
     """
 
-    config = generate_config(fin, preprocess, separate_punct)
+    config = generate_config(fin, separate_punct)
 
     response = requests.post(server_url, data=config.encode('utf-8'))
     diac_sentences = _diac_gen(response.content)
 
     for sentence in diac_sentences:
         fout.write(sentence.encode('utf-8'))
-        fout.write('\n')
+        fout.write(_UTF8_NL)
 
     fout.flush()
 
 
-def diac_stream(fin, fout, server_url, preprocess=False, separate_punct=False):
+def diac_stream(fin, fout, server_url, separate_punct=False):
     """Reads a file line by line, sending a request per line to MADAMIRA, and
     writing the results to an output file.
 
@@ -90,20 +92,19 @@ def diac_stream(fin, fout, server_url, preprocess=False, separate_punct=False):
         server_url {string} -- MADAMIRA server url.
 
     Keyword Arguments:
-        preprocess {bool} -- preprocess text (default: {False})
         separate_punct {bool} -- separate punctuation (default: {False})
     """
 
     line = fin.readline()
 
     while line:
-        config = generate_config([line], preprocess, separate_punct)
+        config = generate_config([line], separate_punct)
         response = requests.post(server_url, data=config.encode('utf-8'))
         diac_sentences = _diac_gen(response.content)
 
         for sentence in diac_sentences:
             fout.write(sentence.encode('utf-8'))
-            fout.write('\n')
+            fout.write(_UTF8_NL)
 
         fout.flush()
         line = fin.readline()

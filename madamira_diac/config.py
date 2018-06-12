@@ -69,14 +69,13 @@ def _sentence_gen(sentences):
         yield (sentence[0], escape(_force_unicode(sentence[1])))
 
 
-def generate_config(sentences, preprocess=False, separate_punct=False):
+def generate_config(sentences, separate_punct=False):
     """Generate a MADAMIRA XML config given a list of sentences.
 
     Arguments:
         sentences {list} -- the list of sentences to be diacritized.
 
     Keyword Arguments:
-        preprocess {bool} -- preprocess text (default: {False}).
         separate_punct {bool} -- separate punctuation (default: {False}).
 
     Returns:
@@ -85,5 +84,5 @@ def generate_config(sentences, preprocess=False, separate_punct=False):
 
     return _MADAMIRA_CONFIG_TEMPLATE.render(
         sentences=_sentence_gen(sentences),
-        preprocess=str(preprocess).lower(),
+        preprocess=str(separate_punct).lower(),
         separate_punct=str(separate_punct).lower())

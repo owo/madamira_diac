@@ -28,7 +28,8 @@
 
 Usage:
     madamira_diac [-u URL | --url=URL]
-                  [-a | --all] [-s | --separate-punct] [-p | --preprocess]
+                  [-a | --all]
+                  [-s | --separate-punct]
                   [-i INPUT | --input=INPUT]
                   [-o OUTPUT | --output=OUTPUT]
     madamira_diac (-v | --version)
@@ -41,7 +42,6 @@ Options:
                               from standard input.
   -o OUTPUT --output=OUTPUT   Output file. If not specified, output will be
                               written to standard output.
-  -p --preprocess             Preprocess text.
   -s --separate-punct         Seperate punctuation.
   -u URL --url=URL            The MADAMIRA server URL. Defaults to
                               http://localhost:8223.
@@ -53,6 +53,7 @@ import sys
 
 from docopt import docopt
 from requests.exceptions import RequestException
+import six
 
 import madamira_diac
 from madamira_diac.diac import diac_file, diac_stream
@@ -67,8 +68,8 @@ def main():
     """Program entry point.
     """
 
-    fin = sys.stdin
-    fout = sys.stdout
+    fin = sys.stdin.buffer if six.PY3 else sys.stdin
+    fout = sys.stdout.buffer if six.PY3 else sys.stdout
     using_stdin = True
     using_stdout = True
 
@@ -78,7 +79,6 @@ def main():
     input_path = arguments.get('--input', None)
     output_path = arguments.get('--output', None)
     server_url = arguments.get('--url', None)
-    preprocess = arguments.get('--preprocess', False)
     separate_punct = arguments.get('--separate-punct', False)
     send_all = arguments.get('--all', False)
 
@@ -96,7 +96,7 @@ def main():
             sys.exit(1)
     if output_path is not None:
         try:
-            fout = open(output_path, 'w')
+            fout = open(output_path, 'wb')
             using_stdout = False
         except Exception:
             sys.stderr.write('Error: Couldn\'t open output file {}.\n'.format(
@@ -108,9 +108,9 @@ def main():
     # Diacritize input
     try:
         if send_all:
-            diac_file(fin, fout, server_url, preprocess, separate_punct)
+            diac_file(fin, fout, server_url, separate_punct)
         else:
-            diac_stream(fin, fout, server_url, preprocess, separate_punct)
+            diac_stream(fin, fout, server_url, separate_punct)
         sys.exit(0)
     except RequestException as e:
         sys.stderr.write('An error occurred while connecting to MADAMIRA:\n')
