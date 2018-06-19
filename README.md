@@ -17,6 +17,10 @@ cd /path/to/MADAMIRA
 
 java -Xmx2500m -Xms2500m -XX:NewRatio=3 \
      -jar MADAMIRA-release-xxxxxxxx-x.x.jar -s
+
+# Or if running Java 9 or later:
+java --add-modules java.xml.bind -Xmx2500m -Xms2500m -XX:NewRatio=3 \
+     -jar MADAMIRA-release-xxxxxxxx-x.x.jar -s
 ```
 
 In a new terminal window, clone a copy of this repo.
@@ -96,3 +100,11 @@ will not return any results until the session is closed using `Ctrl-d`.
 
 madamira_diac is licensed under the MIT License. See [here](LICENSE)
 for more information.
+
+Copyright (c) 2018 New York University Abu Dhabi.
+
+## Contributors
+
+- Ossama Obeid
+- Salam Khalifa
+- Nizar Habash
